@@ -41,6 +41,9 @@ export default function Hero() {
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <a
               href={profile.resume}
+              // Saves the file rather than opening the browser's PDF viewer.
+              // Works because the PDF is served same-origin from /public.
+              download={profile.resumeFilename}
               className="inline-flex items-center gap-2 bg-ink px-5 py-3 font-mono text-xs tracking-[0.12em] uppercase transition-colors hover:bg-detect"
               style={{ color: "var(--ground)" }}
             >

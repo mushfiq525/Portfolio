@@ -49,6 +49,9 @@ export const profile = {
   /** Photo lives in /public. Falls back to a wordmark if the file is absent. */
   photo: "/mushfiq.jpg",
   resume: "/resume.pdf",
+  /** What the browser saves the résumé as — "resume.pdf" alone is anonymous
+      in a recruiter's downloads folder. */
+  resumeFilename: "Mushfiqur-Rahman-CV.pdf",
 } as const;
 
 export const socials: Link[] = [

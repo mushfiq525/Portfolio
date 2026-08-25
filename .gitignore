@@ -24,14 +24,6 @@ next-env.d.ts
 AGENTS.md
 CLAUDE.md
 
-# The résumé the hero's button links to. Deliberately NOT committed: the CV at
-# D:\DOCS\Mushfiqur Rahman (Research) CV.pdf lists the two referees' email
-# addresses, and this repo (plus the deployed site) is public — the same reason
-# those addresses are left off the References section. To enable the download,
-# export a copy of the CV with the referee emails removed, save it here as
-# public/resume.pdf, then delete this rule and commit the file.
-public/resume.pdf
-
 # OS and logs
 .DS_Store
 Thumbs.db

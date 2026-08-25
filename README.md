@@ -49,8 +49,9 @@ before first paint either way. The toggle persists to `localStorage` under
 
 ## Assets
 
-- `public/resume.pdf` — served by the hero's Résumé button. Replace this file to
-  update the download; no code change needed.
+- `public/resume.pdf` — served by the hero's Résumé button, which carries
+  `download` so it saves rather than opening the browser's PDF viewer. Replace
+  the file to update it; the name it saves as is `profile.resumeFilename`.
 - `public/mushfiq.jpg` — hero portrait. Should be a **3:4 portrait crop** (e.g.
   900×1200); the frame in [`components/Portrait.tsx`](components/Portrait.tsx)
   is fixed at that ratio and `object-cover` will centre-crop anything else.

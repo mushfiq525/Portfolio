@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { profile, sections } from "@/content/profile";
+import { profile, sections, socials } from "@/content/profile";
 
 type Action = {
   id: string;
@@ -17,6 +17,26 @@ type Props = {
   isDark: boolean;
   onToggleTheme: () => void;
 };
+
+/*
+ * The résumé is a same-origin file in /public, so a throwaway anchor carrying
+ * `download` saves it instead of navigating to the browser's PDF viewer — the
+ * same behaviour as the hero's button. Firefox only fires the click if the
+ * element is in the document, hence the append/remove.
+ */
+function downloadResume() {
+  const link = document.createElement("a");
+  link.href = profile.resume;
+  link.download = profile.resumeFilename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+}
+
+/** github.com/mushfiq525 — readable in the hint column, unlike the full URL. */
+function shortUrl(url: string) {
+  return url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+}
 
 export default function CommandPalette({ open, onClose, isDark, onToggleTheme }: Props) {
   const [query, setQuery] = useState("");
@@ -44,9 +64,9 @@ export default function CommandPalette({ open, onClose, isDark, onToggleTheme }:
       },
       {
         id: "resume",
-        label: "Open résumé",
+        label: "Download résumé",
         hint: "PDF",
-        run: () => window.open(profile.resume, "_blank"),
+        run: downloadResume,
       },
       {
         id: "email",
@@ -54,12 +74,16 @@ export default function CommandPalette({ open, onClose, isDark, onToggleTheme }:
         hint: profile.email,
         run: () => void navigator.clipboard?.writeText(profile.email),
       },
-      {
-        id: "github",
-        label: "Open GitHub profile",
-        hint: "github.com/mushfiq525",
-        run: () => window.open("https://github.com/mushfiq525", "_blank"),
-      },
+      // Built from `socials` so this list can't drift from the hero and footer.
+      // The mailto entry is filtered out — copying the address is the row above.
+      ...socials
+        .filter((social) => social.url.startsWith("http"))
+        .map((social) => ({
+          id: `open-${social.label.toLowerCase()}`,
+          label: `Open ${social.label} profile`,
+          hint: shortUrl(social.url),
+          run: () => window.open(social.url, "_blank", "noopener"),
+        })),
     ];
   }, [isDark, onToggleTheme]);
 
