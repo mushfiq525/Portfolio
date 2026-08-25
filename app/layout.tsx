@@ -27,11 +27,11 @@ const monoFace = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${profile.name} — ${profile.role}`,
+  title: profile.name,
   description: profile.summary,
   authors: [{ name: profile.name }],
   openGraph: {
-    title: `${profile.name} — ${profile.role}`,
+    title: profile.name,
     description: profile.summary,
     type: "profile",
   },
