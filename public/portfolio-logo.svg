@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+
+    <!-- Main Monogram Gradient (Cyan to Indigo) -->
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="50%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
+
+    <!-- Accent Gradient for R Loop/Leg (Violet to Fuchsia) -->
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#D946EF" />
+    </linearGradient>
+
+    <!-- Subtle Drop Shadow -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Dark Mode Container Background (Optional - transparent background if removed) -->
+  <rect width="100%" height="100%" rx="60" fill="url(#bgGrad)" />
+
+  <!-- Integrated 'M' & 'R' Monogram -->
+  <g filter="url(#dropShadow)" transform="translate(100, 100)">
+    
+    <!-- Left Stem of M -->
+    <path fill="url(#primaryGrad)" d="M 30 250 L 30 50 C 30 38.95 38.95 30 50 30 L 65 30 C 76.05 30 85 38.95 85 50 L 85 250 C 85 261.05 76.05 270 65 270 L 50 270 C 38.95 270 30 261.05 30 250 Z" />
+
+    <!-- Center V-Peak of M (Folds down into the intersection) -->
+    <path fill="url(#primaryGrad)" d="M 70 30 L 150 150 L 230 30 C 238 18 255 24 255 38 L 255 75 L 168 200 C 158 215 142 215 132 200 L 45 68 L 45 38 C 45 24 62 18 70 30 Z" />
+
+    <!-- Right Stem of M / Spine of R -->
+    <path fill="url(#primaryGrad)" d="M 215 50 C 215 38.95 223.95 30 235 30 L 250 30 C 261.05 30 270 38.95 270 50 L 270 250 C 270 261.05 261.05 270 250 270 L 235 270 C 223.95 270 215 261.05 215 250 Z" />
+
+    <!-- R Upper Loop (Flows out seamlessly from the center-right stem) -->
+    <path fill="url(#accentGrad)" d="M 250 30 L 190 30 C 178.95 30 170 38.95 170 50 C 170 61.05 178.95 70 190 70 L 240 70 C 270 70 290 85 290 115 C 290 145 270 160 240 160 L 180 160 C 168.95 160 160 151.05 160 140 C 160 128.95 168.95 120 180 120 L 240 120 C 243 120 248 118 248 115 C 248 112 243 110 240 110 L 190 110 C 156.86 110 130 83.14 130 50 C 130 16.86 156.86 -10 190 -10 L 250 -10 C 272.09 -10 290 7.91 290 30 Z" transform="translate(0, 10)" />
+
+    <!-- Dynamic R Diagonal Leg -->
+    <path fill="url(#accentGrad)" d="M 210 140 L 280 252 C 286 261 279.5 270 268.5 270 L 230 270 C 223 270 216 266 212 260 L 155 168 C 150 160 155.5 150 165 150 L 190 150 C 198 150 205 146 210 140 Z" />
+    
+  </g>
+</svg>
