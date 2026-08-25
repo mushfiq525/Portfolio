@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* Class-based dark mode so the toggle can override the OS preference. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Palette — cool scientific-imaging chrome with a magenta detection stroke.
+   The accents come from the vernacular of CV inference overlays: thin bright
+   boxes and keypoints drawn over a frame.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --ground: #edf1f5;
+  --surface: #ffffff;
+  --surface-2: #f5f8fa;
+  --ink: #0c1826;
+  --muted: #5b6d7e;
+  --line: #d3dce5;
+  --detect: #c31f82;
+  --trace: #0d9d97;
+  /* Foreground for anything sitting on --detect. White works on the light
+     magenta but only reaches 3.44:1 on the brighter dark-mode one, so the
+     dark theme flips to near-black instead. Both land at 5.47:1. */
+  --on-detect: #ffffff;
+}
+
+.dark {
+  --ground: #0a121c;
+  --surface: #111c29;
+  --surface-2: #16232f;
+  --ink: #eef3f8;
+  --muted: #93a3b3;
+  --line: #223140;
+  --detect: #f0479f;
+  --trace: #28d3cb;
+  --on-detect: #0a121c;
+}
+
+/* Full font stacks, defined once. The `--font-*-face` variables come from
+   next/font on <html>.
+
+   These exist separately from the @theme block below because `@theme inline`
+   substitutes theme values into generated utilities without emitting
+   `--font-sans` / `--font-mono` / `--font-display` as custom properties — so
+   hand-written CSS cannot read those theme keys. It reads these instead. */
+:root {
+  --stack-display: var(--font-display-face), ui-sans-serif, system-ui, sans-serif;
+  --stack-body: var(--font-body-face), ui-sans-serif, system-ui, sans-serif;
+  --stack-mono: var(--font-mono-face), ui-monospace, monospace;
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-detect: var(--detect);
+  --color-on-detect: var(--on-detect);
+  --color-trace: var(--trace);
+
+  --font-display: var(--stack-display);
+  --font-sans: var(--stack-body);
+  --font-mono: var(--stack-mono);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Clears the sticky header when jumping to an anchor. */
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    background-color: var(--ground);
+    color: var(--ink);
+    font-family: var(--stack-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--detect) 24%, transparent);
+  }
+
+  /* One consistent focus treatment everywhere, keyboard-only. */
+  :focus-visible {
+    outline: 2px solid var(--detect);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--stack-display);
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------------------- */
+
+@utility eyebrow {
+  font-family: var(--stack-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Faint grid, like the canvas of an imaging tool. Sits behind the hero only. */
+@utility instrument-grid {
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%);
+}
+
+/* ---------------------------------------------------------------------------
+   Motion
+   --------------------------------------------------------------------------- */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.anim-fade-up {
+  animation: fade-up 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Scroll reveal — starts hidden, IntersectionObserver adds .is-visible. */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Respect the OS setting: show every final state, skip the travel. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    /* Delays have to go too, not just durations. The reveals are staggered via
+       inline delays, and `fade-up` fills `both` — so without this they would
+       hold at opacity 0 through the delay and then pop in sequence, which is
+       the effect this query exists to remove. */
+    animation-delay: 0s !important;
+    transition-delay: 0s !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
