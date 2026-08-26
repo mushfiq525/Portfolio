@@ -81,11 +81,25 @@ export default function Header() {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-6 sm:px-8">
           <a
             href="#top"
-            className="font-mono text-sm font-medium tracking-[0.16em]"
+            className="flex items-center gap-2.5 font-mono text-sm font-medium tracking-[0.16em]"
             aria-label={`${profile.name} — back to top`}
           >
-            {profile.initials}
-            <span className="text-detect">.</span>
+            {/* Plain <img>, not next/image: the optimiser refuses SVG by
+                default, and a 2 KB vector has nothing to optimise. The anchor
+                carries the label, so the mark itself is decorative. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.svg"
+              alt=""
+              aria-hidden
+              width={28}
+              height={28}
+              className="size-7 shrink-0"
+            />
+            <span>
+              {profile.initials}
+              <span className="text-detect">.</span>
+            </span>
           </a>
 
           <nav aria-label="Sections" className="hidden md:block">

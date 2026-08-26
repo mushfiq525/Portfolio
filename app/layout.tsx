@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { profile } from "@/content/profile";
+import Cursor from "@/components/Cursor";
 import "./globals.css";
 
 /* Display: technical but with real character in the terminals of a/g/k. */
@@ -27,11 +28,11 @@ const monoFace = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${profile.name} — ${profile.role}`,
+  title: "Mushfiqur Rahman",
   description: profile.summary,
   authors: [{ name: profile.name }],
   openGraph: {
-    title: `${profile.name} — ${profile.role}`,
+    title: "Mushfiqur Rahman",
     description: profile.summary,
     type: "profile",
   },
@@ -69,7 +70,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* Last in the body: it sits above everything and renders nothing on
+            touch devices. */}
+        <Cursor />
+      </body>
     </html>
   );
 }

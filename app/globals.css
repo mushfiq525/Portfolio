@@ -22,6 +22,9 @@
      magenta but only reaches 3.44:1 on the brighter dark-mode one, so the
      dark theme flips to near-black instead. Both land at 5.47:1. */
   --on-detect: #ffffff;
+  /* Pointer disc: a dark circle standing in for the system arrow. */
+  --pointer-fill: color-mix(in srgb, #0c1826 78%, transparent);
+  --pointer-edge: #0c1826;
 }
 
 .dark {
@@ -34,6 +37,9 @@
   --detect: #f0479f;
   --trace: #28d3cb;
   --on-detect: #0a121c;
+  /* Dark disc on a dark page: keep the fill dense and ring it so it stays visible. */
+  --pointer-fill: color-mix(in srgb, #000000 82%, transparent);
+  --pointer-edge: color-mix(in srgb, #eef3f8 55%, transparent);
 }
 
 /* Full font stacks, defined once. The `--font-*-face` variables come from
@@ -123,6 +129,93 @@
     linear-gradient(to bottom, var(--line) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%);
+}
+
+/* ---------------------------------------------------------------------------
+   Pointer — the two layers rendered by components/Cursor.tsx
+   --------------------------------------------------------------------------- */
+
+@media (hover: hover) and (pointer: fine) {
+  /* The follower stands in for the system arrow outright. `!important` is
+     load-bearing here: `cursor` inherits, but Tailwind's cursor-pointer and
+     cursor-default utilities on the palette rows and the modal scrims would
+     otherwise win and put the native arrow back. */
+  body,
+  body *:not(input):not(textarea) {
+    cursor: none !important;
+  }
+
+  /* The one exception. A caret marks the insertion point in the palette's
+     search field and nothing else can stand in for it. */
+  body input,
+  body textarea {
+    cursor: text !important;
+  }
+
+  .pointer-disc,
+  .pointer-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms ease;
+    will-change: transform;
+  }
+
+  .pointer-disc[data-visible="true"],
+  .pointer-dot[data-visible="true"] {
+    opacity: 1;
+  }
+
+  /* Both layers withdraw over a text field, uncovering the native caret. */
+  .pointer-disc[data-text="true"],
+  .pointer-dot[data-text="true"] {
+    opacity: 0;
+  }
+
+  .pointer-disc > span,
+  .pointer-dot > span {
+    display: block;
+    border-radius: 50%;
+  }
+
+  .pointer-disc > span {
+    width: 22px;
+    height: 22px;
+    background: var(--pointer-fill);
+    border: 1.5px solid var(--pointer-edge);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--pointer-edge) 0%, transparent);
+    transition:
+      transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 200ms ease,
+      border-color 200ms ease,
+      box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Over anything clickable the disc opens and rings out. */
+  .pointer-disc[data-hover="true"] > span {
+    transform: scale(1.85);
+    background: color-mix(in srgb, var(--pointer-fill) 35%, transparent);
+    border-color: var(--detect);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--detect) 18%, transparent);
+  }
+
+  /* On press the disc snaps shut — listed after hover so it wins. */
+  .pointer-disc[data-press="true"] > span {
+    transform: scale(0.55);
+    background: var(--ink);
+    border-color: var(--ink);
+    box-shadow: 0 0 0 10px color-mix(in srgb, var(--detect) 22%, transparent);
+    transition-duration: 110ms;
+  }
+
+  .pointer-dot > span {
+    width: 5px;
+    height: 5px;
+    background: var(--ink);
+  }
 }
 
 /* ---------------------------------------------------------------------------
