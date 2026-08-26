@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { profile, sections } from "@/content/profile";
 import { useTheme } from "@/lib/useTheme";
 import CommandPalette from "./CommandPalette";
+import Image from "next/image";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -79,8 +80,9 @@ export default function Header() {
         }`}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-6 sm:px-8">
-          <a
+          <a        
             href="#top"
+<<<<<<< HEAD
             className="flex items-center gap-2.5 font-mono text-sm font-medium tracking-[0.16em]"
             aria-label={`${profile.name} — back to top`}
           >
@@ -100,6 +102,12 @@ export default function Header() {
               {profile.initials}
               <span className="text-detect">.</span>
             </span>
+=======
+            className="flex items-center gap-2"
+            aria-label={`${profile.name} — back to top`}
+          >
+            <Image src="/logo.svg" alt={profile.name} width={28} height={28} className="size-7" />
+>>>>>>> b59f051021f6d276db511dafff65005845abdf2a
           </a>
 
           <nav aria-label="Sections" className="hidden md:block">

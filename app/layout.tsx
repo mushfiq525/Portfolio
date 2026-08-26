@@ -28,11 +28,11 @@ const monoFace = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mushfiqur Rahman",
+  title: profile.name,
   description: profile.summary,
   authors: [{ name: profile.name }],
   openGraph: {
-    title: "Mushfiqur Rahman",
+    title: profile.name,
     description: profile.summary,
     type: "profile",
   },
