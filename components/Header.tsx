@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { profile, sections } from "@/content/profile";
 import { useTheme } from "@/lib/useTheme";
 import CommandPalette from "./CommandPalette";
-import Image from "next/image";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -80,15 +79,13 @@ export default function Header() {
         }`}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-6 sm:px-8">
-          <a        
+          <a
             href="#top"
-<<<<<<< HEAD
             className="flex items-center gap-2.5 font-mono text-sm font-medium tracking-[0.16em]"
             aria-label={`${profile.name} — back to top`}
           >
             {/* Plain <img>, not next/image: the optimiser refuses SVG by
-                default, and a 2 KB vector has nothing to optimise. The anchor
-                carries the label, so the mark itself is decorative. */}
+                default, and a 2 KB vector has nothing to optimise. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo.svg"
@@ -102,12 +99,6 @@ export default function Header() {
               {profile.initials}
               <span className="text-detect">.</span>
             </span>
-=======
-            className="flex items-center gap-2"
-            aria-label={`${profile.name} — back to top`}
-          >
-            <Image src="/logo.svg" alt={profile.name} width={28} height={28} className="size-7" />
->>>>>>> b59f051021f6d276db511dafff65005845abdf2a
           </a>
 
           <nav aria-label="Sections" className="hidden md:block">
@@ -138,9 +129,6 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-1">
-            {/* Keyboard idiom, so it stays on the pointer/keyboard breakpoints.
-                On a phone it would open a text field and raise the soft
-                keyboard, where the menu button below is what's wanted. */}
             <button
               type="button"
               onClick={() => setPaletteOpen(true)}
@@ -154,8 +142,6 @@ export default function Header() {
               <span>⌘K</span>
             </button>
 
-            {/* size-11 is the 44px touch minimum; it tightens up once there's a
-                pointer and the row gets crowded by the nav. */}
             <button
               type="button"
               onClick={toggle}
